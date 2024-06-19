@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { getPost, updatePost, deletePost } from '../services/post';
-import { getCommentsByPost, deleteComment } from '../services/comment';
+import { getCommentsByPost, createComment, deleteComment } from '../services/comment';
 
 
 const PostDetail = () => {
@@ -12,6 +12,7 @@ const PostDetail = () => {
   const [title, setTitle] = useState('');
   const [content, setContent] = useState('');
   const [published, setPublished] = useState(false);
+  const [newComment, setNewComment] = useState('');
   const token = localStorage.getItem('token');
 
   useEffect(() => {
@@ -69,6 +70,27 @@ const PostDetail = () => {
     }
   };
 
+  const handleAddComment = async (event) => {
+    event.preventDefault();
+
+    const commentData = {
+      content: newComment,
+      post: id,
+      author: 'admin',
+    };
+
+    try {
+      await createComment(token, commentData);
+      setNewComment('');
+
+      const updatedComments = await getCommentsByPost(token, id);
+      setComments(updatedComments);
+    } catch (error) {
+      console.error('Error adding comment:', error);
+    }
+  };
+
+
   const handleDeleteComment = async (commentId) => {
     try {
       await deleteComment(token, commentId);
@@ -115,6 +137,18 @@ const PostDetail = () => {
       </form>
 
       <button onClick={handleDeletePost}>Delete Post</button>
+
+      <h3>Add Comment</h3>
+      <form onSubmit={handleAddComment}>
+        <label htmlFor="newComment">Comment:</label>
+        <textarea
+          id="newComment"
+          value={newComment}
+          onChange={(e) => setNewComment(e.target.value)}
+          required
+        />
+        <button type="submit">Add Comment</button>
+      </form>
 
       <h3>Manage Comments</h3>
       {comments.length > 0 ? (
