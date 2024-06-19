@@ -1,5 +1,8 @@
+
+const API_URL = import.meta.env.VITE_API_URL;
+
 export const getPosts = async (token) => {
-  const response = await fetch('/posts', {
+  const response = await fetch(`${API_URL}/posts`, {
     headers: {
       'Authorization': `Bearer ${token}`,
     },
@@ -14,7 +17,7 @@ export const getPosts = async (token) => {
 };
 
 export const createPost = async (token, post) => {
-  const response = await fetch('/posts', {
+  const response = await fetch(`${API_URL}/posts`, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
@@ -32,7 +35,7 @@ export const createPost = async (token, post) => {
 };
 
 export const updatePost = async (token, id, post) => {
-  const response = await fetch(`/posts/${id}`, {
+  const response = await fetch(`${API_URL}/posts/${id}`, {
     method: 'PUT',
     headers: {
       'Content-Type': 'application/json',
@@ -50,7 +53,7 @@ export const updatePost = async (token, id, post) => {
 };
 
 export const deletePost = async (token, id) => {
-  const response = await fetch(`/posts/${id}`, {
+  const response = await fetch(`${API_URL}/posts/${id}`, {
     method: 'DELETE',
     headers: {
       'Authorization': `Bearer ${token}`,
