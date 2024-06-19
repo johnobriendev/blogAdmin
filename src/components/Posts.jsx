@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
+import { getPosts, createPost } from '../services/post';
 
 const Posts = () => {
   const [posts, setPosts] = useState([]);
@@ -7,25 +8,39 @@ const Posts = () => {
   const [content, setContent] = useState('');
   const token = localStorage.getItem('token');
 
+  // useEffect(() => {
+  //   const fetchPosts = async () => {
+      
+  //     const response = await fetch(`${import.meta.env.VITE_API_URL}/posts`, {
+  //       headers: {
+  //         Authorization: `Bearer ${token}`,
+  //       },
+  //     });
+
+  //     if (response.ok) {
+  //       const data = await response.json();
+  //       setPosts(data);
+  //     } else {
+  //       console.error('Failed to fetch posts');
+  //     }
+  //   };
+
+  //   fetchPosts();
+  // }, []);
+  
+  //Fetch posts from data base
   useEffect(() => {
     const fetchPosts = async () => {
-      
-      const response = await fetch(`${import.meta.env.VITE_API_URL}/posts`, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
-
-      if (response.ok) {
-        const data = await response.json();
+      try {
+        const data = await getPosts(token);
         setPosts(data);
-      } else {
-        console.error('Failed to fetch posts');
+      } catch (error) {
+        console.error('Error fetching posts:', error);
       }
     };
 
     fetchPosts();
-  }, []);
+  }, [token]);
 
 
 
@@ -38,24 +53,11 @@ const Posts = () => {
     };
 
     try {
-      await fetch('/posts', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${token}`,
-        },
-        body: JSON.stringify(newPost),
-      });
+      await createPost(token, newPost);
 
       setTitle('');
       setContent('');
 
-      // Fetch the updated list of posts
-      const response = await fetch('/posts', {
-        headers: {
-          'Authorization': `Bearer ${token}`,
-        },
-      });
       const data = await response.json();
       setPosts(data);
 
