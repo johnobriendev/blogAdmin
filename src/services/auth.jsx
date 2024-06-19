@@ -16,3 +16,18 @@ export const login = async (username, password) => {
   const data = await response.json();
   return data;
 };
+
+export const logout = async () => {
+  try {
+    await fetch(`${API_URL}/user/logout`, {
+      method: 'POST',
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem('token')}`,
+      },
+    });
+    localStorage.removeItem('token'); // Remove token from local storage
+  } catch (error) {
+    console.error('Logout failed:', error);
+    throw new Error('Logout failed');
+  }
+};
