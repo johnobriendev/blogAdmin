@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import { getPosts, updatePost, deletePost } from '../services/post';
+import { getPost, updatePost, deletePost } from '../services/post';
 import { getCommentsByPost, deleteComment } from '../services/comment';
 
 
@@ -17,7 +17,7 @@ const PostDetail = () => {
   useEffect(() => {
     const fetchPost = async () => {
       try {
-        const data = await getPosts(token, id);
+        const data = await getPost(token, id);
         setPost(data);
         setTitle(data.title);
         setContent(data.content);
@@ -52,7 +52,7 @@ const PostDetail = () => {
     try {
       await updatePost(token, id, updatedPost);
       // Optionally, refresh the post data
-      const updatedData = await getPosts(token, id);
+      const updatedData = await getPost(token, id);
       setPost(updatedData);
     } catch (error) {
       console.error('Error updating post:', error);
@@ -81,7 +81,8 @@ const PostDetail = () => {
 
   return (
     <div>
-      <h2>Edit Post</h2>
+      <h2>Manage Post</h2>
+      <h3>{post.title}</h3>
       <form onSubmit={handleUpdatePost}>
         <label htmlFor="title">Title:</label>
         <input
@@ -113,7 +114,7 @@ const PostDetail = () => {
 
       <button onClick={handleDeletePost}>Delete Post</button>
 
-      <h3>Comments</h3>
+      <h3>Manage Comments</h3>
       {comments.length > 0 ? (
         <ul>
           {comments.map(comment => (

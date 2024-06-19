@@ -67,3 +67,20 @@ export const deletePost = async (token, id) => {
   const data = await response.json();
   return data;
 };
+
+
+// Function to fetch a single post by ID
+export const getPost = async (token, id) => {
+  const response = await fetch(`${API_URL}/posts/${id}`, {
+    headers: {
+      'Authorization': `Bearer ${token}`,
+    },
+  });
+
+  if (!response.ok) {
+    throw new Error('Failed to fetch post');
+  }
+
+  const data = await response.json();
+  return data;
+};
