@@ -1,12 +1,23 @@
 
 const API_URL = import.meta.env.VITE_API_URL;
 
-export const getPosts = async (token) => {
-  const response = await fetch(`${API_URL}/posts`, {
-    headers: {
-      'Authorization': `Bearer ${token}`,
-    },
-  });
+/////GET POSTS////////////////
+// export const getPosts = async (token) => {
+//   const response = await fetch(`${API_URL}/posts`, {
+//     headers: {
+//       'Authorization': `Bearer ${token}`,
+//     },
+//   });
+
+//   if (!response.ok) {
+//     throw new Error('Failed to fetch posts');
+//   }
+
+//   const data = await response.json();
+//   return data;
+// };
+export const getPosts = async () => {
+  const response = await fetch(`${API_URL}/posts`);
 
   if (!response.ok) {
     throw new Error('Failed to fetch posts');
@@ -16,6 +27,7 @@ export const getPosts = async (token) => {
   return data;
 };
 
+///CREATE POST/////////////////
 export const createPost = async (token, post) => {
   const response = await fetch(`${API_URL}/posts`, {
     method: 'POST',

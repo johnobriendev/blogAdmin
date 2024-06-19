@@ -10,15 +10,18 @@ const Posts = () => {
   const [content, setContent] = useState('');
   const navigate = useNavigate();
   const token = localStorage.getItem('token');
+  let userId = '';
 
+  if(token){
   const decodedToken = jwtDecode(token);
-  const userId = decodedToken.id;
-  
+  userId = decodedToken.id;
+  }
+
   //Fetch posts from data base
   useEffect(() => {
     const fetchPosts = async () => {
       try {
-        const data = await getPosts(token);
+        const data = await getPosts();
         setPosts(data);
       } catch (error) {
         console.error('Error fetching posts:', error);
@@ -66,30 +69,39 @@ const Posts = () => {
     }
   };
 
+
   return (
     <div>
-      <h2>Create New Post</h2>
-      <form onSubmit={handleSubmit}>
-        <label htmlFor="title">Title:</label>
-        <input
-          type="text"
-          id="title"
-          value={title}
-          onChange={(e) => setTitle(e.target.value)}
-          required
-        />
+      {token ? (
+        <>
+          <h2>Create New Post</h2>
+          <form onSubmit={handleSubmit}>
+            <label htmlFor="title">Title:</label>
+            <input
+              type="text"
+              id="title"
+              value={title}
+              onChange={(e) => setTitle(e.target.value)}
+              required
+            />
 
-        <label htmlFor="content">Content:</label>
-        <textarea
-          id="content"
-          value={content}
-          onChange={(e) => setContent(e.target.value)}
-          required
-        />
+            <label htmlFor="content">Content:</label>
+            <textarea
+              id="content"
+              value={content}
+              onChange={(e) => setContent(e.target.value)}
+              required
+            />
 
-        <button type="submit">Create Post</button>
-      </form>
-     
+            <button type="submit">Create Post</button>
+          </form>
+        </>
+      ) : (
+        <p>
+          You are not logged in. <Link to="/login">Log in</Link> to create or manage posts.
+        </p>
+      )}
+
       <h2>Posts</h2>
       
       <ul>
@@ -99,10 +111,52 @@ const Posts = () => {
           </li>
         ))}
       </ul>
-
-      <button onClick={handleLogout}>Logout</button>
+      
+      { token ? (
+       <>
+        <button onClick={handleLogout}>Logout</button>
+      </> 
+       
+      ) : ('') }
     </div>
   );
+  // return (
+  //   <div>
+  //     <h2>Create New Post</h2>
+  //     <form onSubmit={handleSubmit}>
+  //       <label htmlFor="title">Title:</label>
+  //       <input
+  //         type="text"
+  //         id="title"
+  //         value={title}
+  //         onChange={(e) => setTitle(e.target.value)}
+  //         required
+  //       />
+
+  //       <label htmlFor="content">Content:</label>
+  //       <textarea
+  //         id="content"
+  //         value={content}
+  //         onChange={(e) => setContent(e.target.value)}
+  //         required
+  //       />
+
+  //       <button type="submit">Create Post</button>
+  //     </form>
+     
+  //     <h2>Posts</h2>
+      
+  //     <ul>
+  //       {posts.map(post => (
+  //         <li key={post._id}>
+  //           <Link to={`/posts/${post._id}`}>{post.title}</Link>
+  //         </li>
+  //       ))}
+  //     </ul>
+
+  //     <button onClick={handleLogout}>Logout</button>
+  //   </div>
+  // );
 };
 
 export default Posts;
