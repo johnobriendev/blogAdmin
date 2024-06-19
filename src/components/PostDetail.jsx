@@ -54,6 +54,7 @@ const PostDetail = () => {
       // Optionally, refresh the post data
       const updatedData = await getPost(token, id);
       setPost(updatedData);
+      navigate('/posts');
     } catch (error) {
       console.error('Error updating post:', error);
     }
@@ -121,7 +122,7 @@ const PostDetail = () => {
           {comments.map(comment => (
             <li key={comment._id}>
               <p>{comment.content}</p>
-              <p>By: {comment.author.username}</p>
+              <p>By: {comment.author}</p>
               <p>At: {new Date(comment.createdAt).toLocaleString()}</p>
               <button onClick={() => handleDeleteComment(comment._id)}>Delete Comment</button>
             </li>
