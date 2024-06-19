@@ -11,15 +11,11 @@ const LoginForm = () => {
     event.preventDefault();
 
     try{
-
       const { token } = await login(username, password)
-
       // Store token in localStorage
       localStorage.setItem('token', token);
-
       // Redirect to posts page
       navigate('/posts');
-
     } catch (error) {
       console.error('Login error:', error);
       // Handle error state or display error message to user
