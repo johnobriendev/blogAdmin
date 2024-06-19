@@ -1,15 +1,30 @@
-import { useState } from 'react'
+import React from 'react';
+import { createBrowserRouter, RouterProvider } from 'react-router-dom';
+import LoginForm from './components/LoginForm';
+import Posts from './components/Posts';
+// import PostDetailPage from './PostDetailPage';
 
-import './App.css'
+const router = createBrowserRouter([
+  {
+    path: '/login',
+    element: <LoginForm />,
+  },
+  {
+    path: '/posts',
+    element: <Posts />,
+  },
+  // {
+  //   path: '/posts/:id',
+  //   element: <PostDetailPage />,
+  // },
+  {
+    path: '*',
+    element: <LoginForm />,
+  },
+]);
 
-function App() {
+const App = () => {
+  return <RouterProvider router={router} />;
+};
 
-
-  return (
-    <>
-    hello world
-    </>
-  )
-}
-
-export default App
+export default App;
