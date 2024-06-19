@@ -2,21 +2,21 @@ import React from 'react';
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 import LoginForm from './components/LoginForm';
 import Posts from './components/Posts';
-// import PostDetailPage from './PostDetailPage';
+import PostDetail from './components/PostDetail';
 
 const router = createBrowserRouter([
   {
-    path: '/login',
+    path: '/user/login',
     element: <LoginForm />,
   },
   {
     path: '/posts',
     element: <Posts />,
   },
-  // {
-  //   path: '/posts/:id',
-  //   element: <PostDetailPage />,
-  // },
+  {
+    path: '/posts/:id',
+    element: <PostDetail />,
+  },
   {
     path: '*',
     element: <LoginForm />,
