@@ -82,6 +82,7 @@ const PostDetail = () => {
   return (
     <div>
       <h2>Manage Post</h2>
+      <a href='/posts'>Return to posts</a>
       <h3>{post.title}</h3>
       <form onSubmit={handleUpdatePost}>
         <label htmlFor="title">Title:</label>
