@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
+import {jwtDecode} from 'jwt-decode';
 import { getPosts, createPost } from '../services/post';
 
 const Posts = () => {
@@ -8,25 +9,8 @@ const Posts = () => {
   const [content, setContent] = useState('');
   const token = localStorage.getItem('token');
 
-  // useEffect(() => {
-  //   const fetchPosts = async () => {
-      
-  //     const response = await fetch(`${import.meta.env.VITE_API_URL}/posts`, {
-  //       headers: {
-  //         Authorization: `Bearer ${token}`,
-  //       },
-  //     });
-
-  //     if (response.ok) {
-  //       const data = await response.json();
-  //       setPosts(data);
-  //     } else {
-  //       console.error('Failed to fetch posts');
-  //     }
-  //   };
-
-  //   fetchPosts();
-  // }, []);
+  const decodedToken = jwtDecode(token);
+  const userId = decodedToken.id;
   
   //Fetch posts from data base
   useEffect(() => {
@@ -50,16 +34,19 @@ const Posts = () => {
     const newPost = {
       title,
       content,
+      author: userId, 
     };
 
     try {
-      await createPost(token, newPost);
+      const createdPost = await createPost(token, newPost);
 
       setTitle('');
       setContent('');
 
-      const data = await response.json();
-      setPosts(data);
+      setPosts((prevPosts) => [...prevPosts, createdPost]);
+
+      // const data = await response.json();
+      // setPosts(data);
 
     } catch (error) {
       console.error('Error creating post:', error);
