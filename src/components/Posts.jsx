@@ -1,12 +1,14 @@
 import React, { useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import {jwtDecode} from 'jwt-decode';
 import { getPosts, createPost } from '../services/post';
+import { logout } from '../services/auth';
 
 const Posts = () => {
   const [posts, setPosts] = useState([]);
   const [title, setTitle] = useState('');
   const [content, setContent] = useState('');
+  const navigate = useNavigate();
   const token = localStorage.getItem('token');
 
   const decodedToken = jwtDecode(token);
@@ -53,6 +55,17 @@ const Posts = () => {
     }
   };
 
+  const handleLogout = async () => {
+    try {
+      await logout();
+      // Redirect or perform other actions after logout if needed
+      navigate('user/login');
+    } catch (error) {
+      console.error('Failed to logout:', error);
+      // Handle logout failure as needed
+    }
+  };
+
   return (
     <div>
       <h2>Create New Post</h2>
@@ -86,6 +99,8 @@ const Posts = () => {
           </li>
         ))}
       </ul>
+
+      <button onClick={handleLogout}>Logout</button>
     </div>
   );
 };
