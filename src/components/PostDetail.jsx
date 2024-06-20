@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { useParams, useNavigate } from 'react-router-dom';
+import { useParams, useNavigate, Link } from 'react-router-dom';
 import { getPost, updatePost, deletePost } from '../services/post';
 import { getCommentsByPost, createComment, deleteComment } from '../services/comment';
 
@@ -107,7 +107,12 @@ const PostDetail = () => {
       <h2>Manage Post</h2>
       <a href='/posts'>Return to posts</a>
       <h3>{post.title}</h3>
-      <form onSubmit={handleUpdatePost}>
+      <p>{post.content}</p>
+      <p>Published: {post.published ? 'Yes' : 'No'}</p>
+
+      {token ? (
+        <>
+          <form onSubmit={handleUpdatePost}>
         <label htmlFor="title">Title:</label>
         <input
           type="text"
@@ -165,6 +170,32 @@ const PostDetail = () => {
       ) : (
         <p>No comments</p>
       )}
+        </>
+      ) : (
+       <>
+       <p>
+          You are not logged in. <Link to="/login">Log in</Link> to view more details.
+        </p>
+        {comments.length > 0 ? (
+          <ul>
+            {comments.map(comment => (
+              <li key={comment._id}>
+                <p>{comment.content}</p>
+                <p>By: {comment.author}</p>
+                <p>At: {new Date(comment.createdAt).toLocaleString()}</p>
+                
+              </li>
+            ))}
+          </ul>
+        ) : (
+          <p>No comments</p>
+        )}
+        
+        </>
+      )}
+
+      
+      
     </div>
   );
 };
