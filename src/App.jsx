@@ -3,6 +3,7 @@ import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 import LoginForm from './components/LoginForm';
 import Posts from './components/Posts';
 import PostDetail from './components/PostDetail';
+import './index.css';
 
 const router = createBrowserRouter([
   {

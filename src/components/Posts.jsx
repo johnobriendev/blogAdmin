@@ -71,13 +71,14 @@ const Posts = () => {
 
 
   return (
-    <div>
+    <div className='m-2 p-8'>
       {token ? (
-        <>
-          <h2>Create New Post</h2>
-          <form onSubmit={handleSubmit}>
-            <label htmlFor="title">Title:</label>
+        <div className='mb-5'>
+          <h2 className='text-3xl mb-5'>Create New Post</h2>
+          <form className='flex flex-col items-start gap-4' onSubmit={handleSubmit}>
+            <label className='text-xl' htmlFor="title">Title:</label>
             <input
+              className='border border-black rounded w-full'
               type="text"
               id="title"
               value={title}
@@ -85,28 +86,29 @@ const Posts = () => {
               required
             />
 
-            <label htmlFor="content">Content:</label>
+            <label className='text-xl' htmlFor="content">Content:</label>
             <textarea
+              className='border border-black rounded w-full h-48 resize-none'
               id="content"
               value={content}
               onChange={(e) => setContent(e.target.value)}
               required
             />
 
-            <button type="submit">Create Post</button>
+            <button className='border border-black rounded p-1'  type="submit">Create Post</button>
           </form>
-        </>
+        </div>
       ) : (
         <p>
           You are not logged in. <Link to="/login">Log in</Link> to create or manage posts.
         </p>
       )}
 
-      <h2>Posts</h2>
+      <h2 className='text-3xl mb-3'>Posts</h2>
       
       <ul>
         {posts.map(post => (
-          <li key={post._id}>
+          <li key={post._id} className='text-sky-500 cursor-pointer'>
             <Link to={`/posts/${post._id}`}>{post.title}</Link>
           </li>
         ))}
@@ -114,7 +116,11 @@ const Posts = () => {
       
       { token ? (
        <>
-        <button onClick={handleLogout}>Logout</button>
+        <button 
+        className='border border-black rounded p-1 mt-3' 
+        onClick={handleLogout}>
+          Logout
+        </button>
       </> 
        
       ) : ('') }
