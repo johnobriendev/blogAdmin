@@ -62,7 +62,7 @@ const Posts = () => {
     try {
       await logout();
       // Redirect or perform other actions after logout if needed
-      navigate('user/login');
+      navigate('/user/login');
     } catch (error) {
       console.error('Failed to logout:', error);
       // Handle logout failure as needed
