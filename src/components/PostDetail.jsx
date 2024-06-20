@@ -55,7 +55,7 @@ const PostDetail = () => {
       // Optionally, refresh the post data
       const updatedData = await getPost(token, id);
       setPost(updatedData);
-      navigate('/posts');
+      // navigate('/posts');
     } catch (error) {
       console.error('Error updating post:', error);
     }
