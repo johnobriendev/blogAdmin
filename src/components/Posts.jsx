@@ -99,8 +99,8 @@ const Posts = () => {
           </form>
         </div>
       ) : (
-        <p>
-          You are not logged in. <Link to="/login">Log in</Link> to create or manage posts.
+        <p className='mb-5'>
+          You are not logged in. <Link className='text-sky-500' to="/login">Log in</Link> to create or manage posts.
         </p>
       )}
 

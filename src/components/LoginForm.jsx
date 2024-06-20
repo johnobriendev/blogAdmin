@@ -23,11 +23,12 @@ const LoginForm = () => {
   };
 
   return (
-    <div>
-      <h2>Login</h2>
-      <form onSubmit={handleSubmit}>
+    <div className='m-2 p-8 '>
+      <h2 className='text-2xl mb-5'>Admin Login</h2>
+      <form className='flex flex-col items-start gap-3' onSubmit={handleSubmit}>
         <label htmlFor="username">Username:</label>
         <input
+        className='border border-black rounded'
           type="text"
           id="username"
           value={username}
@@ -37,6 +38,7 @@ const LoginForm = () => {
 
         <label htmlFor="password">Password:</label>
         <input
+          className='border border-black rounded'
           type="password"
           id="password"
           value={password}
@@ -44,7 +46,7 @@ const LoginForm = () => {
           required
         />
 
-        <button type="submit">Login</button>
+        <button className='border border-black rounded p-1' type="submit">Login</button>
       </form>
     </div>
   );
