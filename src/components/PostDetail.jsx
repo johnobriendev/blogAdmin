@@ -103,74 +103,85 @@ const PostDetail = () => {
   if (!post) return <div>Loading...</div>;
 
   return (
-    <div>
-      <h2>Manage Post</h2>
-      <a href='/posts'>Return to posts</a>
-      <h3>{post.title}</h3>
-      <p>{post.content}</p>
+    <div className='m-2 p-8'>
+      <h1 className='text-4xl mb-5'>Manage Post</h1>
+      <a className='text-sky-500' href='/posts'>Return to posts</a>
+      <h3 className='mt-5 text-2xl'>Current Title:</h3>
+      <h3 className='text-xl mt-2'>{post.title}</h3>
+      <h3 className='mt-5 text-2xl'>Current Content:</h3>
+      <p className='mt-2'>{post.content}</p>
       <p>Published: {post.published ? 'Yes' : 'No'}</p>
 
       {token ? (
-        <>
-          <form onSubmit={handleUpdatePost}>
-        <label htmlFor="title">Title:</label>
-        <input
-          type="text"
-          id="title"
-          value={title}
-          onChange={(e) => setTitle(e.target.value)}
-          required
-        />
+        <div className='mt-5'>
+          <h2 className='text-3xl mb-2'>Edit Post</h2>
+          <form className='flex flex-col items-start gap-4' onSubmit={handleUpdatePost}>
+            <label className='text-2xl' htmlFor="title">Update Title:</label>
+            <input
+              className='border border-black rounded'
+              type="text"
+              id="title"
+              value={title}
+              onChange={(e) => setTitle(e.target.value)}
+              required
+            />
 
-        <label htmlFor="content">Content:</label>
-        <textarea
-          id="content"
-          value={content}
-          onChange={(e) => setContent(e.target.value)}
-          required
-        />
+            <label className='text-2xl' htmlFor="content">Update Content:</label>
+            <textarea
+              className='border border-black rounded w-9/12 h-48 resize-none p-1'
+              id="content"
+              value={content}
+              onChange={(e) => setContent(e.target.value)}
+              required
+            />
+            <div>
+              <label htmlFor="published">Published:</label>
+              <input
+                type="checkbox"
+                id="published"
+                checked={published}
+                onChange={(e) => setPublished(e.target.checked)}
+              />
+            </div>
+            
+            <div className='flex gap-5'>
+              <button className='border border-black rounded p-1' type="submit">Update Post</button>
+              <button className='border border-black rounded p-1' onClick={handleDeletePost}>Delete Post</button>
+            </div>
+            
+          </form>
 
-        <label htmlFor="published">Published:</label>
-        <input
-          type="checkbox"
-          id="published"
-          checked={published}
-          onChange={(e) => setPublished(e.target.checked)}
-        />
+          
 
-        <button type="submit">Update Post</button>
-      </form>
+          <h3 className='mt-10 text-2xl'>Add Comment</h3>
+          <form className='flex flex-col items-start gap-4 ' onSubmit={handleAddComment}>
+            <label htmlFor="newComment">Comment:</label>
+            <textarea
+              className='border border-black rounded w-9/12 h-24 resize-none p-1'
+              id="newComment"
+              value={newComment}
+              onChange={(e) => setNewComment(e.target.value)}
+              required
+            />
+            <button className='border border-black rounded p-1' type="submit">Add Comment</button>
+          </form>
 
-      <button onClick={handleDeletePost}>Delete Post</button>
-
-      <h3>Add Comment</h3>
-      <form onSubmit={handleAddComment}>
-        <label htmlFor="newComment">Comment:</label>
-        <textarea
-          id="newComment"
-          value={newComment}
-          onChange={(e) => setNewComment(e.target.value)}
-          required
-        />
-        <button type="submit">Add Comment</button>
-      </form>
-
-      <h3>Manage Comments</h3>
-      {comments.length > 0 ? (
-        <ul>
-          {comments.map(comment => (
-            <li key={comment._id}>
-              <p>{comment.content}</p>
-              <p>By: {comment.author}</p>
-              <p>At: {new Date(comment.createdAt).toLocaleString()}</p>
-              <button onClick={() => handleDeleteComment(comment._id)}>Delete Comment</button>
-            </li>
-          ))}
-        </ul>
-      ) : (
-        <p>No comments</p>
-      )}
-        </>
+          <h3 className='mt-10 text-3xl'>Manage Comments</h3>
+          {comments.length > 0 ? (
+            <ul>
+              {comments.map(comment => (
+                <li  className='mt-4 flex flex-col items-start gap-2' key={comment._id}>
+                  <p className='text-xl'>{comment.content}</p>
+                  <p>By: {comment.author}</p>
+                  <p>At: {new Date(comment.createdAt).toLocaleString()}</p>
+                  <button className='border border-black rounded p-1' onClick={() => handleDeleteComment(comment._id)}>Delete Comment</button>
+                </li>
+              ))}
+            </ul>
+          ) : (
+            <p>No comments</p>
+          )}
+        </div>
       ) : (
        <>
        <p>
