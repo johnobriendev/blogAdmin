@@ -105,7 +105,7 @@ const PostDetail = () => {
   return (
     <div className='m-2 p-8'>
       <h1 className='text-4xl mb-5'>Manage Post</h1>
-      <a className='text-sky-500' href='/posts'>Return to posts</a>
+      <Link className='text-sky-500' to='/posts'>Return to posts</Link>
       <h3 className='mt-5 text-2xl'>Current Title:</h3>
       <h3 className='text-xl mt-2'>{post.title}</h3>
       <h3 className='mt-5 text-2xl'>Current Content:</h3>
@@ -184,14 +184,16 @@ const PostDetail = () => {
         </div>
       ) : (
        <>
-       <p>
-          You are not logged in. <Link to="/login">Log in</Link> to view more details.
+        <p className='mt-5 text-xl'>
+          You are not logged in. <Link className='text-sky-500' to="/login">Log in</Link> to view more details.
         </p>
+        <h3 className='text-2xl mt-5 mb-2'>Comments</h3>
         {comments.length > 0 ? (
+          
           <ul>
             {comments.map(comment => (
               <li key={comment._id}>
-                <p>{comment.content}</p>
+                <p className='text-xl'>{comment.content}</p>
                 <p>By: {comment.author}</p>
                 <p>At: {new Date(comment.createdAt).toLocaleString()}</p>
                 
